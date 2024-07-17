@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  langfuse:
+    image: langfuse/langfuse:2
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USERNAME: langfuse_user
+      DATABASE_PASSWORD: langfuse_password
+      DATABASE_NAME: langfuse_db
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: langfuse_secret
+      SALT: langfuse_salt
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: langfuse_user
+      POSTGRES_PASSWORD: langfuse_password
+      POSTGRES_DB: langfuse_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
