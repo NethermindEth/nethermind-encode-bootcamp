@@ -52,6 +52,7 @@ def stream_content_openai(user_prompt):
     prompt = langfuse.get_prompt("personality-prompt", type="chat")
     system_prompt = prompt.compile(traits=traits)[0]
 
+    # Match ghe generated prompt with the current observation
     langfuse_context.update_current_observation(        
         prompt=prompt,
     )
@@ -102,9 +103,9 @@ if "trace_id" in st.session_state:
                             index=None,
                             key=st.session_state.trace_id):
                     langfuse.score(
-                        id=st.session_state.trace_id,
+                        id=st.session_state.trace_id,   # We need this to override the previously set rating
                         name="user-rating",
                         value=rating,
                         trace_id=st.session_state.trace_id,
-                        observation_id=st.session_state.observation_id
+                        observation_id=st.session_state.observation_id # We need this to match with the prompt generation
                     )
