@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import streamlit as st
 from streamlit.runtime.scriptrunner import get_script_run_ctx 
 from openai import OpenAI
@@ -8,6 +9,9 @@ from langfuse.openai import openai
 
 st.set_page_config(page_title="Awesome Chat")
 st.title("Awesome Chat")
+
+load_dotenv(".env")
+load_dotenv(".env.langfuse")
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 langfuse = Langfuse()
